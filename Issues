@@ -1,0 +1,79 @@
+Issue with battery status (detecting discharging)
+After an hour i checked again, detected the discharging status without any problems.
+
+-----------------------------------------------------------------------------------
+
+Issue:
+~ ❯ cd .battwhy
+
+.battwhy main ? ❯ python3 -m battwhy
+
+BATTERY DRAIN DIAGNOSIS
+
+Battery Status: Unknown (0%)
+
+Overall CPU Usage: 1.7%
+
+Top CPU Processes:
+
+    kworker/0:37-events (PID 6072) - 0.2%
+    ghostty (PID 44303) - 0.2%
+    Hyprland (PID 1430) - 0.2%
+
+Active Devices:
+
+    wlan0 (operstate: up, carrier: connected)
+    card1 (power_state: D0, vendor: 0x8086, device: 0xa7a1)
+    xHCI Host Controller (runtime_status: active, control: auto)
+    xHCI Host Controller (runtime_status: active, control: auto)
+    hci0 (Bluetooth adapter detected)
+    hci0 (Bluetooth is not blocked)
+    ideapad_bluetooth (Bluetooth is not blocked)
+
+Wakeup Info: Context Switches: 942/sec, Wakeup Level: low
+DIAGNOSIS
+
+Battery drain appears LOW, but some minor issues detected:
+
+• Battery is not discharging (charging or full)
+
+-----------------------------------------------------------------------------------
+
+Fixed:
+.battwhy main ? ❯ python3 -m battwhy
+============================================================
+BATTERY DRAIN DIAGNOSIS
+============================================================
+
+Battery Status: Discharging (60%)
+Current Power Draw: ~6.67W
+Estimated Remaining: ~4.1 hours
+
+Overall CPU Usage: 2.1%
+
+Top CPU Processes:
+  1. chromium (PID 2237) - 0.6%
+  2. chromium (PID 2204) - 0.2%
+  3. ghostty (PID 19529) - 0.2%
+  4. Hyprland (PID 1438) - 0.2%
+
+Active Devices:
+ - wlan0 (operstate: up, carrier: connected)
+ - card1 (power_state: D0, vendor: 0x8086, device: 0xa7a1)
+ - hci0 (Bluetooth adapter detected)
+ - hci0 (Bluetooth is not blocked)
+ - ideapad_bluetooth (Bluetooth is not blocked)
+
+Wakeup Info: Context Switches: 1594/sec, Wakeup Level: moderate
+
+------------------------------------------------------------
+DIAGNOSIS
+------------------------------------------------------------
+
+Battery drain is HIGH. Multiple issues detected:
+
+[HIGH] Dedicated GPU is active while on battery
+
+Recommendations:
+  - Consider switching to integrated graphics or using GPU power-saving mode
+  - Consider disabling Bluetooth if not needed
